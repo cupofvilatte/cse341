@@ -1,7 +1,10 @@
 GET http://localhost:3000 HTTP/1.1
 
 ###
-GET http://localhost:3000/awesome HTTP/1.1
+GET http://localhost:3000/contacts HTTP/1.1
+
+###
+GET http://localhost:3000/contacts/one?id=68166ed54a85e9a6480346b1
 
 ###
 Get https://cse341-198e.onrender.com HTTP/1.1
