@@ -24,7 +24,7 @@ const connectToDatabase = async () => {
 
 connectToDatabase();
 
-router.get('/', async (req, res) => {
+router.get('/contacts', async (req, res) => {
     try {
       await connectToDatabase(); // Ensure we're connected
       const contacts = await contactsCollection.find().toArray();
