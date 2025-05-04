@@ -55,9 +55,11 @@ router.get('/one', async (req, res) => {
 
         const html = `
             <h1>Contact Details</h1>
-            <p><strong>Name:</strong> ${contact.firstName} ${contact.lastName}</p>
+            <p><strong>First Name:</strong> ${contact.firstName}</p>
+            <p><strong>Last Name:</strong> ${contact.lastName}</p>
             <p><strong>Email:</strong> ${contact.email}</p>
-            <p><strong>Phone:</strong> ${contact.phone}</p>
+            <p><strong>Favorite Color:</strong> ${contact.favoriteColor}</p>
+            <p><strong>Birthday:</strong> ${contact.birthday}</p>
             <br/>
             <a href="/contacts"><button>Back to All Contacts</button></a>
         `;
