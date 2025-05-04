@@ -12,6 +12,7 @@ let contactsCollection;
 const connectToDatabase = async () => {
     if (!contactsCollection) {
       try {
+        console.log('Connecting to MongoDB...');
         await client.connect();
         const db = client.db('cse341Database');
         contactsCollection = db.collection('contacts');
