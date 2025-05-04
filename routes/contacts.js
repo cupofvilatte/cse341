@@ -31,7 +31,7 @@ router.get('/', async (req, res) => {
       const contacts = await contactsCollection.find().toArray();
       let html = '<h1>All Contacts</h1>';
       contacts.forEach(contact => {
-        html += `<a href="/contacts/one?id=${contact._id}><button>${contact.firstName} ${contact.lastName}</button></a><br/>`;
+        html += `<a href="/contacts/one?id=${contact._id}"><button>${contact.firstName} ${contact.lastName}</button></a><br/>`;
       });
       res.send(html);  
     } catch (err) {
@@ -63,7 +63,7 @@ router.get('/one', async (req, res) => {
         `;
 
         res.send(html);
-        
+
     } catch (err) {
         console.error(err);
         res.status(500).send("Error fetching contacts");
