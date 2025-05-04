@@ -29,7 +29,11 @@ router.get('/', async (req, res) => {
     try {
       await connectToDatabase(); // Ensure we're connected
       const contacts = await contactsCollection.find().toArray();
-      res.json(contacts);
+      let html = '<h1>All Contacts</h1>';
+      contacts.forEach(contact => {
+        html += `<a href="/contacts/one?id=${contact._id}><button>${contact.firstName} ${contact.lastName}</button></a><br/>`;
+      });
+      res.send(html);  
     } catch (err) {
       console.error(err);
       res.status(500).send("Error fetching contacts");
@@ -48,7 +52,18 @@ router.get('/one', async (req, res) => {
         await connectToDatabase(); // Ensure we're connected
         const contact = await contactsCollection.findOne({ _id: new ObjectId(id) });
         if (!contact) return res.status(404).send("Contact not found");
-        res.json(contact);
+
+        const html = `
+            <h1>Contact Details</h1>
+            <p><strong>Name:</strong> ${contact.firstName} ${contact.lastName}</p>
+            <p><strong>Email:</strong> ${contact.email}</p>
+            <p><strong>Phone:</strong> ${contact.phone}</p>
+            <br/>
+            <a href="/contacts"><button>Back to All Contacts</button></a>
+        `;
+
+        res.send(html);
+        
     } catch (err) {
         console.error(err);
         res.status(500).send("Error fetching contacts");
