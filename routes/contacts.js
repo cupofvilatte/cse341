@@ -129,12 +129,34 @@ router.put('/:id', express.json(), async (req, res) => {
       return res.status(404).send('Contact not found');
     }
 
-    res.sendStatus(204);
+    res.sendStatus(200).json({ message: "Contact updated successfully" });
   } catch (error) {
     console.error(error);
     res.status(500).send('Error updating contact');
   }
 
+});
+
+router.delete('/:id', async (req, res) => {
+  const id = req.params.id;
+
+  if (!ObjectId.isValid(id)) {
+      return res.status(400).send("Invalid ID");
+  }
+
+  try {
+      await connectToDatabase(); // Ensure DB connection
+      const result = await contactsCollection.deleteOne({ _id: new ObjectId(id) });
+
+      if (result.deletedCount === 0) {
+          return res.status(404).send("Contact not found");
+      }
+
+      res.sendStatus(200).json({ message: "Contact deleted successfully" });
+  } catch (err) {
+      console.error(err);
+      res.status(500).send("Error deleting contact");
+  }
 });
 
 module.exports = router;
