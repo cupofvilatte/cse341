@@ -21,6 +21,18 @@ Content-Type: application/json
     "birthday": "2004-03-18"
 }
 
+### test local update contact
+PUT http://localhost:3000/contacts/68166ed54a85e9a6480346b1
+Content-Type: application/json
+
+{
+    "firstName": "MerriAnna",
+    "lastName": "Knapp",
+    "email": "sistermerrik@gmail.com",
+    "favoriteColor": "green",
+    "birthday": "1984-02-24"
+}
+
 ### RENDER TESTS
 
 ### test render root
@@ -42,4 +54,16 @@ Content-Type: application/json
     "email": "vilate@example.com",
     "favoriteColor": "pink",
     "birthday": "2004-03-18"
+}
+
+### test render update contact
+PUT https://cse341-198e.onrender.com/contacts/68166ed54a85e9a6480346b1
+Content-Type: application/json
+
+{
+    "firstName": "MerriAnna",
+    "lastName": "Knapp",
+    "email": "sistermerrik@gmail.com",
+    "favoriteColor": "green",
+    "birthday": "1984-02-24"
 }

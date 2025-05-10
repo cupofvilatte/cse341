@@ -97,4 +97,44 @@ router.post('/', express.json(), async (req, res) => {
   }
 });
 
+router.put('/:id', express.json(), async (req, res) => {
+  const { id } = req.params;
+
+  if (!ObjectId.isValid(id)) {
+    return res.status(400).send('Invalid ID format');
+  }
+
+  const { firstName, lastName, email, favoriteColor, birthday } = req.body;
+
+  if (!firstName || !lastName || !email || !favoriteColor || !birthday) {
+    return res.status(400).send('All fields are required');
+  }
+
+  try {
+    await connectToDatabase();
+    const result = await contactsCollection.updateOne(
+      { _id: new ObjectId(id) },
+      {
+        $set: {
+          firstName,
+          lastName,
+          email,
+          favoriteColor,
+          birthday,
+        },
+      }
+    );
+
+    if (result.matchedCount === 0) {
+      return res.status(404).send('Contact not found');
+    }
+
+    res.sendStatus(204);
+  } catch (error) {
+    console.error(error);
+    res.status(500).send('Error updating contact');
+  }
+
+});
+
 module.exports = router;
