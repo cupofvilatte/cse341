@@ -72,5 +72,29 @@ router.get('/one', async (req, res) => {
     }
 });
 
+router.post('/', express.json(), async (req, res) => {
+  await connectToDatabase();
+
+  const { firstName, lastName, email, favoriteColor, birthday } = req.body;
+
+  if (!firstName || !lastName || !email || !favoriteColor || !birthday) {
+    return res.status(400).json({ message: 'All fields are required.' })
+  }
+
+  try {
+    const result = await contactsCollection.insertOne({
+      firstName,
+      lastName,
+      email,
+      favoriteColor,
+      birthday
+    });
+
+    res.status(201).json({ insertedId: result.insertedId });
+  } catch (err) {
+    console.error('Error inserting contact:', err);
+    res.status(500).json({ message: 'Failed to create contact' });
+  }
+});
 
 module.exports = router;
