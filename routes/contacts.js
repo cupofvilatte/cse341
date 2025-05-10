@@ -129,7 +129,7 @@ router.put('/:id', express.json(), async (req, res) => {
       return res.status(404).send('Contact not found');
     }
 
-    res.sendStatus(200).json({ message: "Contact updated successfully" });
+    res.sendStatus(204).json({ message: "Contact updated successfully" });
   } catch (error) {
     console.error(error);
     res.status(500).send('Error updating contact');
