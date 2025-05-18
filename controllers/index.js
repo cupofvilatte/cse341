@@ -1,12 +1,5 @@
 const awesomeFunction = (req, res, next) => {
-    res.send(`
-        <h1>Welcome!</h1>
-        <a href="/contacts"><button>View All Contacts</button></a>
-    `);
+    res.json({ message: 'Welcome to the Contacts API' });
 };
 
-const returnAnotherPerson = (req, res, next) => {
-    res.send('Lucjan Lipka');
-};
-
-module.exports = { awesomeFunction, returnAnotherPerson };
+module.exports = { awesomeFunction };
