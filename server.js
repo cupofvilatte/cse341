@@ -5,32 +5,16 @@ const cors = require('cors');
 const app = express();
 
 const swaggerUi = require('swagger-ui-express');
-const swaggerJsdoc = require('swagger-jsdoc');
+const fs = require('fs');
 
 const port = process.env.PORT || 3000
 
 app.use(cors());
 app.use(express.json());
 
-const swaggerOptions = {
-    definition: {
-        openapi: '3.0.0',
-        info: {
-            title: 'Contacts API',
-            version: '1.0.0',
-            description: 'API to manage contacts with MongoDB'
-        },
-        servers: [
-            {
-                url: 'https://cse341-198e.onrender.com',
-            },
-        ],
-    },
-    apis: ['./routes/*.js'],
-};
+const swaggerDocument = JSON.parse(fs.readFileSync('./swagger.json', 'utf8'));
 
-const swaggerSpec = swaggerJsdoc(swaggerOptions);
-app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 app.use('/', require('./routes'));
 
