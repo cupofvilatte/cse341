@@ -63,7 +63,7 @@ router.get('/', async (req, res) => {
 
 /**
  * @swagger
- * /contacts/one:
+ * /contacts/:id
  *   get:
  *     summary: Get a single contact by query ID
  *     tags: [Contacts]
