@@ -1,3 +1,10 @@
+/**
+ * @swagger
+ * tags:
+ *   name: Contacts
+ *   description: API for managing contacts
+ */
+
 const express = require('express');
 const router = express.Router();
 const { MongoClient, ObjectId } = require('mongodb');
@@ -25,6 +32,20 @@ const connectToDatabase = async () => {
 
 connectToDatabase();
 
+/**
+ * @swagger
+ * /contacts:
+ *   get:
+ *     summary: Get all contacts
+ *     tags: [Contacts]
+ *     responses:
+ *       200:
+ *         description: A list of contacts
+ *         content:
+ *           text/html:
+ *             schema:
+ *               type: string
+ */
 router.get('/', async (req, res) => {
     try {
       await connectToDatabase(); // Ensure we're connected
@@ -40,6 +61,27 @@ router.get('/', async (req, res) => {
     }
 });
 
+/**
+ * @swagger
+ * /contacts/one:
+ *   get:
+ *     summary: Get a single contact by query ID
+ *     tags: [Contacts]
+ *     parameters:
+ *       - in: query
+ *         name: id
+ *         required: true
+ *         description: The contact's ObjectId
+ *         schema:
+ *           type: string
+ *     responses:
+ *       200:
+ *         description: A single contact (HTML)
+ *       400:
+ *         description: Invalid ID
+ *       404:
+ *         description: Contact not found
+ */
 router.get('/one', async (req, res) => {
 
     const id = req.query.id;
@@ -72,6 +114,43 @@ router.get('/one', async (req, res) => {
     }
 });
 
+
+/**
+ * @swagger
+ * /contacts:
+ *   post:
+ *     summary: Create a new contact
+ *     tags: [Contacts]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required:
+ *               - firstName
+ *               - lastName
+ *               - email
+ *               - favoriteColor
+ *               - birthday
+ *             properties:
+ *               firstName:
+ *                 type: string
+ *               lastName:
+ *                 type: string
+ *               email:
+ *                 type: string
+ *               favoriteColor:
+ *                 type: string
+ *               birthday:
+ *                 type: string
+ *                 format: date
+ *     responses:
+ *       201:
+ *         description: Contact created
+ *       400:
+ *         description: Missing required fields
+ */
 router.post('/', express.json(), async (req, res) => {
   await connectToDatabase();
 
@@ -97,6 +176,51 @@ router.post('/', express.json(), async (req, res) => {
   }
 });
 
+/**
+ * @swagger
+ * /contacts/{id}:
+ *   put:
+ *     summary: Update a contact by ID
+ *     tags: [Contacts]
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         description: The contact ID
+ *         schema:
+ *           type: string
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required:
+ *               - firstName
+ *               - lastName
+ *               - email
+ *               - favoriteColor
+ *               - birthday
+ *             properties:
+ *               firstName:
+ *                 type: string
+ *               lastName:
+ *                 type: string
+ *               email:
+ *                 type: string
+ *               favoriteColor:
+ *                 type: string
+ *               birthday:
+ *                 type: string
+ *                 format: date
+ *     responses:
+ *       204:
+ *         description: Contact updated successfully
+ *       400:
+ *         description: Invalid ID or missing fields
+ *       404:
+ *         description: Contact not found
+ */
 router.put('/:id', express.json(), async (req, res) => {
   const { id } = req.params;
 
@@ -137,6 +261,27 @@ router.put('/:id', express.json(), async (req, res) => {
 
 });
 
+/**
+ * @swagger
+ * /contacts/{id}:
+ *   delete:
+ *     summary: Delete a contact by ID
+ *     tags: [Contacts]
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         description: The contact ID
+ *         schema:
+ *           type: string
+ *     responses:
+ *       200:
+ *         description: Contact deleted successfully
+ *       400:
+ *         description: Invalid ID
+ *       404:
+ *         description: Contact not found
+ */
 router.delete('/:id', async (req, res) => {
   const id = req.params.id;
 
