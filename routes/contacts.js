@@ -82,9 +82,9 @@ router.get('/', async (req, res) => {
  *       404:
  *         description: Contact not found
  */
-router.get('/one', async (req, res) => {
+router.get('/:id', async (req, res) => {
 
-    const id = req.query.id;
+    const id = req.params.id;
 
     if (!ObjectId.isValid(id)) {
         return res.status(400).send("invalid ID");
